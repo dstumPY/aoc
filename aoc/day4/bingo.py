@@ -1,148 +1,73 @@
 import pandas as pd
-
 from pathlib import Path
+from aoc.day4.choices import CHOICES
 
 ROOT = Path(".")
 DIR = ROOT / "aoc/day4/boards" / "boards.csv"
 
 
-with DIR.open("r") as file:
-    lines = [
-        line.rstrip("\n").rstrip(" ").lstrip(" ").replace("  ", " ")
-        for line in file.readlines()
-    ]
+def process_input_data() -> Dict[pd.DataFrame]:
+    """Read boards.csv and store data as list of DFs
 
-boards = []
-current_board = []
-for line in lines:
-    if line == "":
-        boards.append(current_board)
-        current_board = []
-        continue
+    Returns:
+        Dict[pd.DataFrame] -- List of DataFrame boards
+    """
+    # remove newlines, spaces and cast numbers to int
+    with DIR.open("r") as file:
+        lines = [
+            line.rstrip("\n").rstrip(" ").lstrip(" ").replace("  ", " ")
+            for line in file.readlines()
+        ]
 
-    tmp_line = [int(number) for number in line.split(" ")]
-    current_board.append(tmp_line)
+    # store every block as DataFrame into
+    boards = []
+    current_board = []
+    for line in lines:
+        # skip empty lines
+        if line == "":
+            boards.append(current_board)
+            current_board = []
+            continue
 
-boards_df = [pd.DataFrame(board) for board in boards]
-boards_dict = dict(zip(range(1,200), boards_df))
-choices = [
-    23,
-    91,
-    18,
-    32,
-    73,
-    14,
-    20,
-    4,
-    10,
-    55,
-    40,
-    29,
-    13,
-    25,
-    48,
-    65,
-    2,
-    80,
-    22,
-    16,
-    93,
-    85,
-    66,
-    21,
-    9,
-    36,
-    47,
-    72,
-    88,
-    58,
-    5,
-    42,
-    53,
-    69,
-    52,
-    8,
-    54,
-    63,
-    76,
-    12,
-    6,
-    99,
-    35,
-    95,
-    82,
-    49,
-    41,
-    17,
-    62,
-    34,
-    51,
-    77,
-    94,
-    7,
-    28,
-    71,
-    92,
-    74,
-    46,
-    79,
-    26,
-    19,
-    97,
-    86,
-    87,
-    37,
-    57,
-    64,
-    1,
-    30,
-    11,
-    96,
-    70,
-    44,
-    83,
-    0,
-    56,
-    90,
-    59,
-    78,
-    61,
-    98,
-    89,
-    43,
-    3,
-    84,
-    67,
-    38,
-    68,
-    27,
-    81,
-    39,
-    15,
-    50,
-    60,
-    24,
-    45,
-    75,
-    33,
-    31,
-]
+        tmp_line = [int(number) for number in line.split(" ")]
+        current_board.append(tmp_line)
 
-for choice in choices:
-    for idx, board in boards_dict.items():
-        #print(idx)
-        tmp_board = board.replace(choice, 0)
+    # store blocks as DataFrames
+    boards_df = [pd.DataFrame(board) for board in boards]
+    boards_dict = dict(zip(range(1, 200), boards_df))
+
+    return boards_dict
+
+
+boards_dict = process_input_data()
+print("The first found board solves the first part of the puzzle:")
+
+# replace choices ar DataFrame with zeros
+for choice in CHOICES:
+
+    # data update is required since dict resizing is not allowed during
+    # loops (see winning board dropping)
+    tmp_boards_dict = boards_dict.copy()
+
+    for idx, board in tmp_boards_dict.items():
+
+        # replace found choices with zeros
         boards_dict[idx] = board.replace(choice, 0)
-        
 
+        current = boards_dict[idx]
         # test if board has zero col or zero row
-        if tmp_board.sum(axis=0).eq(0).any() or tmp_board.sum(axis=1).eq(0).any():
-            board_sum = tmp_board.sum(axis=1).sum(axis=0)
-            print('i:', idx)
-            print('choice: ', choice)
-            print('sum:', board_sum)
+        if current.sum(axis=0).eq(0).any() or current.sum(axis=1).eq(0).any():
+            board_sum = current.sum(axis=1).sum(axis=0)
+            print("i:", idx)
+            print("choice: ", choice)
             print(tmp_board)
-            print('result: ', choice * board_sum,)
-            # print()
-            # break
+            print("sum:", board_sum)
+            print(
+                "Result: ",
+                choice * board_sum,
+            )
 
+            # drop winning board
+            del boards_dict[idx]
+
+print("The last board (above) solves the second part of the puzzle.")
