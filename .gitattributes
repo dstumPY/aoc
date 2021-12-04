@@ -1,0 +1,2 @@
+# this enforces unix-friendly 'lf' line endings
+* test=auto eol=lf

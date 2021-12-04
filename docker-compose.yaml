@@ -1,0 +1,46 @@
+version: "3.7"
+services: 
+
+  # IDE in browser
+  ide:
+    build:
+      context: .
+      target: ide
+    image: aoc_ide
+    container_name: aoc_ide
+    env_file: .env_dev
+    ports: 
+      - 8123:8123
+    volumes:
+      - .:/home/root/app/.
+      - pre-commit:/root/.cache/pre-commit
+      - poetry-cache:/root/.cache/pypoetry
+      - $HOME/.gitconfig:/root/.gitconfig
+      - $SSH_AUTH_SOCK:/tmp/authsock
+    environment:
+      SSH_AUTH_SOCK: /tmp/authsock
+    restart: unless-stopped
+    command: "code-server --auth none --bind-addr 0.0.0.0:8123 /home/root/app"
+
+  # IDE in container
+  dev:
+    build:
+      context: .
+      target: dev
+    image: aoc_dev
+    container_name: aoc_dev
+    env_file: .env_dev
+    ports:
+      - 8888:8888
+    volumes:
+      - .:/home/root/app
+      - vscode-extensions:/root/.vscode-server/extensions
+      - pre-commit:/root/.cache/pre-commit
+      - poetry-cache:/root/.cache/pypoetry
+    command: poetry run python
+    tty: true
+
+volumes: 
+  vscode-extensions:
+  pre-commit:
+  poetry-cache:
