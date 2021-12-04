@@ -1,16 +1,19 @@
-import pandas as pd
 from pathlib import Path
+from typing import Dict
+
+import pandas as pd
+
 from aoc.day4.choices import CHOICES
 
 ROOT = Path(".")
 DIR = ROOT / "aoc/day4/boards" / "boards.csv"
 
 
-def process_input_data() -> Dict[pd.DataFrame]:
+def process_input_data() -> Dict[int, pd.DataFrame]:
     """Read boards.csv and store data as list of DFs
 
     Returns:
-        Dict[pd.DataFrame] -- List of DataFrame boards
+        Dict[int, pd.DataFrame] -- List of DataFrame boards
     """
     # remove newlines, spaces and cast numbers to int
     with DIR.open("r") as file:
@@ -60,7 +63,7 @@ for choice in CHOICES:
             board_sum = current.sum(axis=1).sum(axis=0)
             print("i:", idx)
             print("choice: ", choice)
-            print(tmp_board)
+            print(current)
             print("sum:", board_sum)
             print(
                 "Result: ",
