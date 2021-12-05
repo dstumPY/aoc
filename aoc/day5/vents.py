@@ -167,4 +167,4 @@ for item in vent_data:
 
 all_directions = Counter(all_vents)
 crossed_vents = {key: value for key, value in all_directions.items() if value >= 2}
-print("Result part 1 (for only horizontal and vertical vents):", len(crossed_vents))
+print("Result part 2 (for all direction vents - including diagonal):", len(crossed_vents))
