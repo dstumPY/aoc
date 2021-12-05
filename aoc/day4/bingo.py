@@ -1,3 +1,4 @@
+"""Solution for day 4 puzzle (see https://adventofcode.com/2021/day/4)"""
 from pathlib import Path
 from typing import Dict
 
