@@ -1,58 +1,24 @@
-"""Solution for day 5 puzzle (see https://adventofcode.com/2021/day/5)"""
+"""Solution for day 5 puzzle (see https://adventofcode.com/2021/day/5)."""
 from collections import Counter
 from typing import List, Tuple
-
-from aoc.config import PUZZLE_INPUT_FOLDER
-
-
-def load_input_day5() -> list:
-    """Load and process the input data.
-
-    Returns:
-        list -- List directions given by [(from_x, from_y) (to_x, to_y)]
-    """    
-    file = PUZZLE_INPUT_FOLDER / "day5_input_data.txt"
-
-    # load complete input file
-    with file.open("r") as fh:
-        lines = fh.readlines()
-
-    # remove newlines
-    lines = [line.strip("\n") for line in lines]
-
-    result = []
-    for line in lines:
-        # split at ' -> ' character
-        vent_from, vent_to = line.split(" -> ")
-
-        # extract coordinates by splitting at ','
-        # and converting to int
-        from_x = int(vent_from.split(",")[0])
-        from_y = int(vent_from.split(",")[1])
-
-        to_x = int(vent_to.split(",")[0])
-        to_y = int(vent_to.split(",")[1])
-
-        result.append([(from_x, from_y), (to_x, to_y)])
-
-    return result
+from aoc.io.data_load import load_input_day5
 
 
 def get_horizontal_vertical_vents(
     from_tuple: Tuple[int, int], to_tuple: Tuple[int, int]
 ) -> List[int]:
-        """Explode horizontal and vertical directions to coordiante sequence.
+    """Explode horizontal and vertical directions to coordinate sequence.
 
-        Example:
-        Given directions as (9,7) -> (9,5) will be exploded to [(9,7), (9,6), (9,5)]
+    Example:
+    Given directions as (9,7) -> (9,5) will be exploded to [(9,7), (9,6), (9,5)]
 
-        Arguments:
-            from_tuple {Tuple[int, int]} -- Tuple the vent starts from.
-            to_tuple {Tuple[int, int]} -- Tuple the vent ends.
+    Arguments:
+        from_tuple {Tuple[int, int]} -- Tuple the vent starts from.
+        to_tuple {Tuple[int, int]} -- Tuple the vent ends.
 
-        Returns:
-            List[int] -- Exploded directions given by coordinates.
-        """
+    Returns:
+        List[int] -- Exploded directions given by coordinates.
+    """
     from_x, from_y = from_tuple
     to_x, to_y = to_tuple
 
