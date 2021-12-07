@@ -1,4 +1,5 @@
 """Solution for day 7 puzzle (see https://adventofcode.com/2021/day/7)."""
+import numpy as np
 import pandas as pd
 
 from aoc.io.data_load import load_input_day7
@@ -19,8 +20,11 @@ for current_position in range(min_position, max_position + 1):
 # with potential local positions as index and the crabs position as column
 df = pd.DataFrame()
 df = pd.DataFrame(diff_position_list, index=range(min_position, max_position + 1))
-min_argument = np.argmin(df.sum(axis=1))
-print(f"PART1: your fuel consumption is {df.filter([min_argument]).sum().iat[0]}")
+
+solution_val = df.sum(axis=1).min()
+solution_idx = df.loc[(df.sum(axis=1) == solution_val)].index[0] 
+solution1 = (solution_idx, solution_val) 
+print(f"PART2: your fuel consumption is {solution1[1]} at position {solution1[0]}")
 
 
 ## PART2
@@ -45,4 +49,4 @@ for scenario_position, crabs_positions in scenarios.items():
     )
 
 solution2 = sorted(result_scenarios.items(), key=lambda x: x[1])[0]
-print(f"PART2: your fuel consumption is {solution[1]} at position {solution[0]}")
+print(f"PART2: your fuel consumption is {solution2[1]} at position {solution2[0]}")
