@@ -50,3 +50,22 @@ def load_input_day6() -> list:
         lines = [int(lanternfish) for lanternfish in lines.strip('\n').split(',')]
         
     return lines
+
+
+def load_input_day7() -> list:
+    """Load and process the input data.
+
+    Returns:
+        list -- crab positions
+    """
+    # locate file
+    FILE = PUZZLE_INPUT_FOLDER / 'day7_input_data.txt'
+
+    # read file
+    with FILE.open('r') as fh:
+        lines = fh.readline()
+
+        # clean input from newlines, split by comma and cast values to int
+        lines = [int(lanternfish) for lanternfish in lines.strip('\n').split(',')]
+        
+    return lines
