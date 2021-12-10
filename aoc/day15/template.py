@@ -1,1 +1,1 @@
-"""Solution for day 16 puzzle (see https://adventofcode.com/2021/day/15)."""
+"""Solution for day 15 puzzle (see https://adventofcode.com/2021/day/15)."""
