@@ -24,7 +24,6 @@ class PaperPoints:
         for item in raw_input:
             self.board[item] = Point(item[0], item[1], "#")
 
-
         # store number of
         self.number_dot = len(self.get_dots())
         self.number_sharp = len(self.get_sharps())

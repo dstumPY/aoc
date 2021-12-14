@@ -1,3 +1,4 @@
+from os import O_TRUNC
 from typing import List, Tuple
 from aoc.config import PUZZLE_INPUT_FOLDER
 
@@ -34,6 +35,7 @@ def load_input_day5() -> list:
 
     return result
 
+
 def load_input_day6() -> list:
     """Load and process the input data.
 
@@ -41,14 +43,14 @@ def load_input_day6() -> list:
         list -- lanternfish ages
     """
     # locate file
-    FILE = PUZZLE_INPUT_FOLDER / 'day6_input_data.txt'
+    FILE = PUZZLE_INPUT_FOLDER / "day6_input_data.txt"
 
     # read file
-    with FILE.open('r') as fh:
+    with FILE.open("r") as fh:
         lines = fh.readline()
 
         # clean input from newlines, split by comma and cast values to int
-        lines = [int(lanternfish) for lanternfish in lines.strip('\n').split(',')]
+        lines = [int(lanternfish) for lanternfish in lines.strip("\n").split(",")]
 
     return lines
 
@@ -60,14 +62,14 @@ def load_input_day7() -> list:
         list -- crab positions
     """
     # locate file
-    FILE = PUZZLE_INPUT_FOLDER / 'day7_input_data.txt'
+    FILE = PUZZLE_INPUT_FOLDER / "day7_input_data.txt"
 
     # read file
-    with FILE.open('r') as fh:
+    with FILE.open("r") as fh:
         lines = fh.readline()
 
         # clean input from newlines, split by comma and cast values to int
-        lines = [int(lanternfish) for lanternfish in lines.strip('\n').split(',')]
+        lines = [int(lanternfish) for lanternfish in lines.strip("\n").split(",")]
 
     return lines
 
@@ -76,14 +78,14 @@ def load_input_day8() -> Tuple[List[str], List[str]]:
     """Load and process input data.
 
     Returns:
-        Tuple[List[str], List[str]]: signals and output splitted 
+        Tuple[List[str], List[str]]: signals and output splitted
                                     into different lists.
     """
     # locate file
     FILE = PUZZLE_INPUT_FOLDER / "day8_input_data.txt"
 
     # read file
-    lines = FILE.open('r').readlines()
+    lines = FILE.open("r").readlines()
 
     head_list = []
     tail_list = []
@@ -114,3 +116,84 @@ def load_input_day9() -> List[List[int]]:
         height_map = [[int(digit_str) for digit_str in line] for line in lines]
 
     return height_map
+
+
+def load_input_day10() -> List[List[str]]:
+    """Generate character list based on an input file.
+
+    Returns:
+        List[List[str]] -- Separated character list
+    """
+    FILE = PUZZLE_INPUT_FOLDER / "day10_input_data.txt"
+
+    lines = FILE.open("r").readlines()
+
+    output = []
+    for line in lines:
+        output.append(list(line.strip("\n")))
+
+    return output
+
+
+def load_input_day11() -> List[List[int]]:
+    """Generate map with encoded intensity of glowing octopusses.
+
+    Returns:
+        List[List[str]] -- glowing octopus intensity
+    """
+    FILE = PUZZLE_INPUT_FOLDER / "day11_input_data.txt"
+
+    raw_input = []
+    with FILE.open("r") as fh:
+        for line in fh.readlines():
+            encoded_line = [int(intensity) for intensity in list(line.strip("\n"))]
+            raw_input.append(encoded_line)
+
+    return raw_input
+
+
+def load_input_day12():
+    """Generate cave connections from input file.
+
+    Returns:
+        List[List[str]] --
+    """
+    FILE = PUZZLE_INPUT_FOLDER / "day12_input_data.txt"
+
+    raw_input = []
+    with FILE.open("r") as fh:
+        lines = fh.readlines()
+        for line in lines:
+            from_cave, to_cave = line.strip("\n").split("-")
+            raw_input.append((from_cave, to_cave))
+
+    return raw_input
+
+
+def load_input_data13(size: str = None) -> Tuple[List[Tuple[int, int]], List[Tuple[str, int]]]:
+    """Generate transparent map and folding instructions.
+
+    Returns:
+        Tuple[List[Tuple[int, int],List[Tuple[str, int]]]:
+                                                    First argument: points
+                                                    (x, y) at transparent map.
+                                                    Second, folding position
+                                                    vertically (x) or horizontally
+                                                    (y) including line number.
+    """
+    size = "_" + size if size else ""
+    FILE = PUZZLE_INPUT_FOLDER / f"day13_input_data{size}.txt"
+
+    dot_positions = []
+    raw_folding = []
+    with FILE.open("r") as fh:
+        lines = [line.strip("\n") for line in fh.readlines()]
+        for line in lines:
+            if "," in line:
+                x, y = line.split(",")
+                dot_positions.append((int(x), int(y)))
+            elif "=" in line:
+                begin, line_no = line.split("=")
+                raw_folding.append((begin[-1], int(line_no)))
+
+    return dot_positions, raw_folding
