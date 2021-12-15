@@ -1,4 +1,3 @@
-from os import O_TRUNC
 from typing import List, Tuple
 from aoc.config import PUZZLE_INPUT_FOLDER
 
@@ -170,8 +169,14 @@ def load_input_day12():
     return raw_input
 
 
-def load_input_data13(size: str = None) -> Tuple[List[Tuple[int, int]], List[Tuple[str, int]]]:
+def load_input_day13(
+    size: str = None,
+) -> Tuple[List[Tuple[int, int]], List[Tuple[str, int]]]:
     """Generate transparent map and folding instructions.
+
+    Keyword Arguments:
+        size {str} -- whether to load the "small" example or target puzzle
+                                                input(None)  (default: {None})
 
     Returns:
         Tuple[List[Tuple[int, int],List[Tuple[str, int]]]:
@@ -197,3 +202,37 @@ def load_input_data13(size: str = None) -> Tuple[List[Tuple[int, int]], List[Tup
                 raw_folding.append((begin[-1], int(line_no)))
 
     return dot_positions, raw_folding
+
+
+def load_input_day14(size: str = None) -> Tuple[List[Tuple[str, str]], str]:
+    """Generate raw_input for day 14 puzzle.
+
+    Keyword Arguments:
+        size {str} -- whether to load the "small" example or target puzzle
+                                                input(None)  (default: {None})
+
+    Returns:
+        Tuple[List[Tuple[int, int],List[Tuple[str, int]]]:
+                                                    First argument: points
+                                                    (x, y) at transparent map.
+                                                    Second, folding position
+                                                    vertically (x) or horizontally
+                                                    (y) including line number.
+    """
+    size = "_" + size if size else ""
+    FILE = PUZZLE_INPUT_FOLDER / f"day14_input_data{size}.txt"
+
+    with FILE.open("r") as fh:
+        lines = [line.strip("\n") for line in fh.readlines()]
+
+        raw_input = []
+        for line in lines:
+            if "->" in line:
+                char_from, char_to = line.split(" -> ")
+                raw_input.append((char_from, char_to))
+            elif line == '':
+                continue
+            else:
+                init_word = line
+
+        return raw_input, init_word
