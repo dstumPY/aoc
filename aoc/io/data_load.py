@@ -1,5 +1,6 @@
 from typing import List, Tuple
 from aoc.config import PUZZLE_INPUT_FOLDER
+import re
 
 
 def load_input_day5() -> list:
@@ -236,3 +237,17 @@ def load_input_day14(size: str = None) -> Tuple[List[Tuple[str, str]], str]:
                 init_word = line
 
         return raw_input, init_word
+
+
+def load_input_day17():
+    FILE = PUZZLE_INPUT_FOLDER / "day17_input_data.txt"
+
+    with open(FILE, "r") as fh:
+        line = fh.readline().strip()
+        xrange, yrange = re.findall('\=(.*)\,.*\=(.*)', line)[0]
+        x_min, x_max = xrange.split("..")
+        y_min, y_max = yrange.split("..")
+        x_min, x_max = int(x_min), int(x_max)
+        y_min, y_max = int(y_min), int(y_max)
+
+        return ((x_min, y_min), (x_max, y_max))
